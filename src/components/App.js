@@ -2,7 +2,6 @@ import React from 'react';
 import starwars from '../apis/starwars';
 import {
   Route,
-  Switch
 } from 'react-router-dom';
 
 import FilmList from './FilmList';
@@ -22,11 +21,10 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <FilmList films={this.state.films} />
-
-        <Switch>
-          <Route path="/films/:episode_id" component={FilmDetail} />
-        </Switch>
+        <Route exact path='/'>
+          <FilmList films={this.state.films} />
+        </Route>
+        <Route path="/:episode_id" component={FilmDetail}/>
       </div>
     );
   };
