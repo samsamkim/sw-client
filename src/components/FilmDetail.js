@@ -76,7 +76,6 @@ class FilmDetail extends React.Component {
       </div>
     );
   };
-
 };
 
 export default FilmDetail;
