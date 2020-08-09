@@ -6,6 +6,7 @@ import {
 
 import FilmList from './FilmList';
 import FilmDetail from './FilmDetail';
+import VehicleDetail from './VehicleDetail';
 import SearchBar from './SearchBar';
 
 class App extends React.Component {
@@ -37,7 +38,8 @@ class App extends React.Component {
           <SearchBar onSubmitSB={ this.onSearchSubmit } />
           <FilmList films={ this.state.films } />
         </Route>
-        <Route path="/:episode_id" component={ FilmDetail }/>
+        <Route path="/vehicles/:vehicleName" component={ VehicleDetail } /> 
+        <Route path="/films/:episode_id" component={ FilmDetail }/>
       </div>
     );
   };

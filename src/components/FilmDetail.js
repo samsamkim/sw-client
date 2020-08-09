@@ -1,6 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
+import { Link } from 'react-router-dom';
+
+
 class FilmDetail extends React.Component {
   state = { title: null, vehicles: [], characters: [], planets: [] }
 
@@ -37,7 +40,13 @@ class FilmDetail extends React.Component {
       <div>
         <h4>Vehicles</h4>
         {this.state.vehicles.map((vehicle, i) => {
-          return <div key={i}> {vehicle.name} </div>
+          return (
+            <div key={i}>
+              <Link to={{ pathname: '/vehicles/' + encodeURIComponent(vehicle.name), state: {vehicle} }} >
+                {vehicle.name}
+              </Link>
+            </div>
+          )
         })}
       </div>
     )
@@ -66,7 +75,6 @@ class FilmDetail extends React.Component {
   };
 
   render() {
-    console.log(this.state)
     return (
       <div>
         <h2>{this.state.title}</h2>
