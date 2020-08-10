@@ -17,6 +17,10 @@ class App extends React.Component {
     starwars.get('films/', { params: {search: term} })
       .then(res => {
         this.setState({films: res.data.results});
+      })
+      .catch((e) => {
+        alert('Error in retrieving films');
+        this.setState({ films: [] });
       });
   }
 
@@ -26,7 +30,8 @@ class App extends React.Component {
         this.setState({films: res.data.results});
       })
       .catch((e) => {
-        alert('Error', e)
+        alert('Error in retrieving films');
+        this.setState({ films: [] });
       });
   };
 
