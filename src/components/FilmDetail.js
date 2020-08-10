@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 
 import { Link } from 'react-router-dom';
-
+import CharacterList from './CharacterList';
+import PlanetList from './PlanetList';
+import VehicleList from './VehicleList';
 
 class FilmDetail extends React.Component {
   state = { title: null, vehicles: [], characters: [], planets: [] }
@@ -12,22 +14,26 @@ class FilmDetail extends React.Component {
       return axios.get(URL)
         .then(res => res.data)
         .catch((e) => {
-          alert(`No ${stateType} information available`);
+          alert(`No ${stateType} information available`, e);
         });
     });
 
-    Promise.all(dataArray).then((dataPromise) => {
-      this.setState({[stateType]: dataPromise})
-    });
+    Promise.all(dataArray)
+      .then((dataPromise) => { this.setState({[stateType]: dataPromise}) })
+      .catch((e) => { alert('Error grabbing details', e) });
   };
 
   componentDidMount() {
     const film = this.props.location.state.film;
     const { title, vehicles, characters, planets } = film;
-    const filmDetailArray = [[vehicles, 'vehicles'], [characters, 'characters'], [planets, 'planets']];
+    const filmDetailArray = [
+      {urls: vehicles, type: 'vehicles'},
+      {urls: characters, type: 'characters'},
+      {urls: planets, type: 'planets'}
+    ];
 
-    filmDetailArray.forEach((detailType) => {
-      this.getDataAndSetStateFromURLs(detailType[0], detailType[1])
+    filmDetailArray.forEach((detailObj) => {
+      this.getDataAndSetStateFromURLs(detailObj['urls'], detailObj['type'])
     });
 
     this.setState({
@@ -52,35 +58,14 @@ class FilmDetail extends React.Component {
     )
   };
 
-  renderCharacters() {
-    return (
-      <div>
-        <h4>Characters</h4>
-        {this.state.characters.map((character, i) => {
-          return <div key={i}> {character.name} </div>
-        })}
-      </div>
-    )
-  };
-
-  renderPlanets() {
-    return (
-      <div>
-        <h4>Planets</h4>
-        {this.state.planets.map((planet, i) => {
-          return <div key={i}> {planet.name} </div>
-        })}
-      </div>
-    )
-  };
-
   render() {
     return (
       <div>
         <h2>{this.state.title}</h2>
-        {this.renderVehicles()}
-        {this.renderCharacters()}
-        {this.renderPlanets()}
+        {/* {this.renderVehicles()} */}
+        <VehicleList vehicles={this.state.vehicles} />
+        <CharacterList characters={this.state.characters}/>
+        <PlanetList planets={this.state.planets}/>
       </div>
     );
   };

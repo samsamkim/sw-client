@@ -27,7 +27,6 @@ class App extends React.Component {
       })
       .catch((e) => {
         alert('Error', e)
-        console.log(e)
       });
   };
 
