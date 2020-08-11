@@ -8,20 +8,20 @@ import VehicleList from './VehicleList';
 class FilmDetail extends React.Component {
   state = { title: null, vehicles: [], characters: [], planets: [] };
 
-  getDataAndSetStateFromURLs (URLsArray, stateType) {
-    const dataArray = URLsArray.map((URL) => {
+  getDataAndSetStateFromURLs (detailObj) {
+    const dataArray = detailObj['urls'].map((URL) => {
       return axios.get(URL)
         .then(res => res.data)
         .catch((e) => {
-          alert(`No ${stateType} information available`);
+          alert(`No ${detailObj['type']} information available`);
         });
     });
 
     Promise.all(dataArray)
-      .then((dataPromise) => { this.setState({[stateType]: dataPromise}) })
+      .then((dataPromise) => { this.setState({[detailObj['type']]: dataPromise}) })
       .catch((e) => {
         alert('Error grabbing details');
-        this.setState({ [stateType]: [] });
+        this.setState({ [detailObj['type']]: [] });
       });
   };
 
@@ -35,7 +35,7 @@ class FilmDetail extends React.Component {
     ];
 
     filmDetailArray.forEach((detailObj) => {
-      this.getDataAndSetStateFromURLs(detailObj['urls'], detailObj['type'])
+      this.getDataAndSetStateFromURLs(detailObj)
     });
 
     this.setState({ title: title, });
